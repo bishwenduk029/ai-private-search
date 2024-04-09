@@ -8,6 +8,12 @@ const openai = new OpenAI({
 
 // Decide whether inquiry is required for the user input
 export async function taskManager(messages: ExperimentalMessage[]) {
+  const openai = new OpenAI({
+    baseUrl: process.env.OPENAI_API_BASE, // optional base URL for proxies etc.
+    apiKey: process.env.OPENAI_API_KEY, // optional API key, default to env property OPENAI_API_KEY
+    organization: '' // optional organization
+  })
+
   const result = await experimental_generateObject({
     model: openai.chat('gpt-3.5-turbo-0125'),
     system: `As a professional web researcher, your primary objective is to fully comprehend the user's query, conduct thorough web searches to gather the necessary information, and provide an appropriate response.
