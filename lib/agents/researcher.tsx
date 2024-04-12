@@ -14,6 +14,7 @@ import { SearchResults } from '@/components/search-results'
 import { BotMessage } from '@/components/message'
 import Exa from 'exa-js'
 import { SearchResultsImageSection } from '@/components/search-results-image'
+import { Card } from '@/components/ui/card'
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
@@ -27,6 +28,7 @@ export async function researcher(
   const searchAPI: 'searxng' | 'exa' = 'searxng'
 
   let fullResponse = ''
+  let hasError = false
   const answerSection = (
     <Section title="Answer">
       <BotMessage content={streamText.value} />
@@ -119,6 +121,7 @@ export async function researcher(
         toolResponses.push(delta)
         break
       case 'error':
+        hasError = true
         fullResponse += `\nError occurred while executing the tool`
         break
     }
@@ -133,7 +136,7 @@ export async function researcher(
     messages.push({ role: 'tool', content: toolResponses })
   }
 
-  return { result, fullResponse }
+  return { result, fullResponse, hasError }
 }
 
 async function searxngSearch(
