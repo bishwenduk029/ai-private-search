@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useEffect, useState, useRef } from 'react'
 import type { AI } from '@/app/action'
 import { useUIState, useActions, useAIState } from 'ai/rsc'
@@ -88,6 +89,19 @@ export function ChatPanel() {
       : 'fixed bottom-8-ml-6'
   return (
     <div className={formPositionClass}>
+      <section className="w-full my-5">
+        <div className="container px-4 md:px-6 flex flex-col items-center text-center space-y-6">
+          <div className="space-y-2">
+            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
+              Just Ask
+            </h1>
+            <p className="text-gray-500 md:text-xl dark:text-gray-400">
+              Where curious minds meet cutting-edge AI for an enhanced search
+              experience.
+            </p>
+          </div>
+        </div>
+      </section>
       {/* <IconKuroko className="w-6 h-6 mb-4" /> */}
       <form onSubmit={handleSubmit} className="max-w-2xl w-full px-6">
         <div className="relative flex items-center w-full">

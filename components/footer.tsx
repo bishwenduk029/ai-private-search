@@ -1,39 +1,35 @@
 import React from 'react'
 import Link from 'next/link'
-import { SiDiscord, SiGithub, SiTwitter } from 'react-icons/si'
-import { Button } from './ui/button'
 
 const Footer: React.FC = () => {
   return (
-    <footer className="w-fit p-1 md:p-2 fixed bottom-0 right-0">
-      <div className="flex justify-end">
-        <Button
-          variant={'ghost'}
-          size={'icon'}
-          className="text-muted-foreground/50"
-        >
-          <Link href="https://discord.gg/zRxaseCuGq" target="_blank">
-            <SiDiscord size={18} />
-          </Link>
-        </Button>
-        <Button
-          variant={'ghost'}
-          size={'icon'}
-          className="text-muted-foreground/50"
-        >
-          <Link href="https://twitter.com/miiura" target="_blank">
-            <SiTwitter size={18} />
-          </Link>
-        </Button>
-        <Button
-          variant={'ghost'}
-          size={'icon'}
-          className="text-muted-foreground/50"
-        >
-          <Link href="https://git.new/morphic" target="_blank">
-            <SiGithub size={18} />
-          </Link>
-        </Button>
+    <footer className="flex flex-col items-center justify-center gap-4 py-8 text-center fixed bottom-0 w-full">
+      <div className="flex justify-start">
+        <div>
+          <h2 className="text-2xl font-bold">Credits</h2>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <Link
+              className="text-sm font-medium hover:underline"
+              href="https://github.com/miurla/morphic/tree/main"
+            >
+              {'Morphic ->'}
+            </Link>
+            <span className="text-gray-500 dark:text-gray-400 mx-2">•</span>
+            <Link
+              className="text-sm font-medium hover:underline"
+              href="https://github.com/searxng/searxng"
+            >
+              {'SearxNG ->'}
+            </Link>
+            <span className="text-gray-500 dark:text-gray-400 mx-2">•</span>
+            <Link
+              className="text-sm font-medium hover:underline"
+              href="https://github.com/bishwenduk029"
+            >
+              @bishwenduk029
+            </Link>
+          </div>
+        </div>
       </div>
     </footer>
   )

@@ -1,4 +1,4 @@
-# Morphic
+# Just Ask
 
 An AI-powered answer engine with a generative UI.
 
@@ -28,13 +28,13 @@ An AI-powered answer engine with a generative UI.
 Fork the repo to your Github account, then run the following command to clone the repo:
 
 ```
-git clone git@github.com:[YOUR_GITHUB_ACCOUNT]/morphic.git
+git clone git@github.com:[YOUR_GITHUB_ACCOUNT]/Just Ask.git
 ```
 
 ### 2. Install dependencies
 
 ```
-cd morphic
+cd Just Ask
 bun i
 ```
 
@@ -80,9 +80,9 @@ You can now visit http://localhost:3000.
 
 ## 🌐 Deploy
 
-Host your own live version of Morphic with Vercel.
+Host your own live version of Just Ask with Vercel.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fmiurla%2Fmorphic&env=OPENAI_API_KEY,TAVILY_API_KEY)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fmiurla%2FJust Ask&env=OPENAI_API_KEY,TAVILY_API_KEY)
 
 ## ✅ Verified models
 

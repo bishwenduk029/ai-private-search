@@ -48,7 +48,7 @@ def search_web_ref(query: str, debug=False):
         print(safe_string)
 
         response = requests.get(
-            'https://just-ask-search-engine-cold-dust-3777.fly.dev/?q=' + safe_string + '&format=json')
+            'http://localhost:8080/?q=' + safe_string + '&format=json')
         response.raise_for_status()
         search_results = response.json()
 
@@ -129,7 +129,7 @@ class SearchResultResponse(BaseModel):
 @app.post("/v1/search", response_model=SearchResultResponse)
 def search(request: SearchRequest):
     [content_list, images] = search_web_ref(request.query, debug=False)
-    print(images)
+    print(content_list)
     return SearchResultResponse(query=request.query, results=content_list, images=images)
 
 

@@ -1,27 +1,29 @@
-version: '3'
+version: '3.8'
 services:
   searxng:
     build:
-      context: ./searxng
+      context: ./metasearch-engines
       dockerfile: Dockerfile
-    ports:
-      - '8080:8080'
     environment:
       - BASE_URL=http://localhost:8080
       - INSTANCE_NAME=just-ask
+    ports:
+      - 8080:8080
     volumes:
-      - ./searxng/config:/etc/searxng
+      - ./metasearch-engines/searxng:/etc/searxng
+    networks:
+      - default
 
   metasearch-engine:
     build:
-      context: ./metasearch-engine
+      context: ./metasearch-api
       dockerfile: Dockerfile
-    ports:
-      - '8000:8000'
     depends_on:
       - searxng
+    networks:
+      - default
 
-  nextjs:
+  just-ask:
     build:
       context: .
       dockerfile: Dockerfile
@@ -29,3 +31,7 @@ services:
       - '3000:3000'
     depends_on:
       - metasearch-engine
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    networks:
+      - default
