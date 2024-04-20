@@ -1,8 +1,12 @@
-import { openai } from 'ai/openai'
+import { OpenAI } from '@ai-sdk/openai'
 import { Copilot } from '@/components/copilot'
 import { createStreamableUI, createStreamableValue } from 'ai/rsc'
 import { ExperimentalMessage, experimental_streamObject } from 'ai'
 import { PartialInquiry, inquirySchema } from '@/lib/schema/inquiry'
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+})
 
 export async function inquire(
   uiStream: ReturnType<typeof createStreamableUI>,
@@ -13,7 +17,7 @@ export async function inquire(
 
   let finalInquiry: PartialInquiry = {}
   await experimental_streamObject({
-    model: openai.chat('gpt-4-turbo-preview'),
+    model: openai.chat('gpt-3.5-turbo-0125'),
     system: `As a professional web researcher, your role is to deepen your understanding of the user's input by conducting further inquiries when necessary.
     After receiving an initial response from the user, carefully assess whether additional questions are absolutely essential to provide a comprehensive and accurate answer. Only proceed with further inquiries if the available information is insufficient or ambiguous.
 
@@ -49,7 +53,8 @@ export async function inquire(
     Remember, your goal is to gather the necessary information to deliver a thorough and accurate response.
     `,
     messages,
-    schema: inquirySchema
+    schema: inquirySchema,
+    temperature: 0.3
   })
     .then(async result => {
       for await (const obj of result.partialObjectStream) {

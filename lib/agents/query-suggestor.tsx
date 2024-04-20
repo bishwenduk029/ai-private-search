@@ -3,7 +3,11 @@ import { ExperimentalMessage, experimental_streamObject } from 'ai'
 import { PartialRelated, relatedSchema } from '@/lib/schema/related'
 import { Section } from '@/components/section'
 import SearchRelated from '@/components/search-related'
-import { openai } from 'ai/openai'
+import { OpenAI } from '@ai-sdk/openai'
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+})
 
 export async function querySuggestor(
   uiStream: ReturnType<typeof createStreamableUI>,
@@ -17,7 +21,7 @@ export async function querySuggestor(
   )
 
   await experimental_streamObject({
-    model: openai.chat('gpt-4-turbo-preview'),
+    model: openai.chat('gpt-3.5-turbo-0125'),
     system: `As a professional web researcher, your task is to generate a set of three queries that explore the subject matter more deeply, building upon the initial query and the information uncovered in its search results.
 
     For instance, if the original query was "Starship's third test flight key milestones", your output should follow this format:
@@ -33,7 +37,8 @@ export async function querySuggestor(
     Aim to create queries that progressively delve into more specific aspects, implications, or adjacent topics related to the initial query. The goal is to anticipate the user's potential information needs and guide them towards a more comprehensive understanding of the subject matter.
     `,
     messages,
-    schema: relatedSchema
+    schema: relatedSchema,
+    temperature: 0.3
   })
     .then(async result => {
       for await (const obj of result.partialObjectStream) {

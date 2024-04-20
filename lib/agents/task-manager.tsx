@@ -1,11 +1,15 @@
 import { ExperimentalMessage, experimental_generateObject } from 'ai'
-import { openai } from 'ai/openai'
+import { OpenAI } from '@ai-sdk/openai'
 import { nextActionSchema } from '../schema/next-action'
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+})
 
 // Decide whether inquiry is required for the user input
 export async function taskManager(messages: ExperimentalMessage[]) {
   const result = await experimental_generateObject({
-    model: openai.chat('gpt-3.5-turbo'),
+    model: openai.chat('gpt-3.5-turbo-0125'),
     system: `As a professional web researcher, your primary objective is to fully comprehend the user's query, conduct thorough web searches to gather the necessary information, and provide an appropriate response.
     To achieve this, you must first analyze the user's input and determine the optimal course of action. You have two options at your disposal:
     1. "proceed": If the provided information is sufficient to address the query effectively, choose this option to proceed with the research and formulate a response.
@@ -16,7 +20,8 @@ export async function taskManager(messages: ExperimentalMessage[]) {
     Make your choice wisely to ensure that you fulfill your mission as a web researcher effectively and deliver the most valuable assistance to the user.
     `,
     messages,
-    schema: nextActionSchema
+    schema: nextActionSchema,
+    temperature: 0.3
   })
 
   return result
