@@ -1,0 +1,31 @@
+version: '3'
+services:
+  searxng:
+    build:
+      context: ./searxng
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    environment:
+      - BASE_URL=http://localhost:8080
+      - INSTANCE_NAME=just-ask
+    volumes:
+      - ./searxng/config:/etc/searxng
+
+  metasearch-engine:
+    build:
+      context: ./metasearch-engine
+      dockerfile: Dockerfile
+    ports:
+      - '8000:8000'
+    depends_on:
+      - searxng
+
+  nextjs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    depends_on:
+      - metasearch-engine

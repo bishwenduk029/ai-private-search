@@ -109,7 +109,7 @@ export function ChatPanel() {
           <Button
             type="submit"
             className="bg-orange-500 text-white px-4 rounded-lg shadow-xl"
-            disabled={input.length === 0}
+            // disabled={input.length === 0}
           >
             Ask AI
           </Button>
