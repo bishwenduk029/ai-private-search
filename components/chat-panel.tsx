@@ -84,20 +84,20 @@ export function ChatPanel() {
   // Condition 1 and 3: If there are no messages or the button is pressed, display the form
   const formPositionClass =
     messages.length === 0
-      ? 'fixed bottom-8 left-0 right-0 top-10 mx-auto h-screen flex flex-col items-center justify-center bg-[#ffefeb]'
+      ? 'fixed bottom-8 left-0 right-0 top-10 mx-auto h-screen flex flex-col items-center justify-center'
       : 'fixed bottom-8-ml-6'
   return (
     <div className={formPositionClass}>
       {/* <IconKuroko className="w-6 h-6 mb-4" /> */}
       <form onSubmit={handleSubmit} className="max-w-2xl w-full px-6">
-        <div className="custom-input relative flex items-center justify-center space-x-4 bg-white rounded-lg shadow-xl p-3 w-full margin-auto shadow-orange-light outline-none focus:outline-none focus:ring-0">
+        <div className="relative flex items-center w-full">
           <Input
             ref={inputRef}
             type="text"
             name="input"
             placeholder="Ask a question..."
             value={input}
-            className="custom-input pl-4 pr-10 h-12 flex-1 bg-transparent border-none text-black outline-none focus:outline-none focus:ring-0"
+            className="pl-4 pr-10 h-12 rounded-full bg-muted"
             onChange={e => {
               setInput(e.target.value)
               setShowEmptyScreen(e.target.value.length === 0)
@@ -107,10 +107,12 @@ export function ChatPanel() {
           />
           <Button
             type="submit"
-            className="bg-orange-500 text-white px-4 rounded-lg shadow-xl"
-            // disabled={input.length === 0}
+            size={'icon'}
+            variant={'ghost'}
+            className="absolute right-2 top-1/2 transform -translate-y-1/2"
+            disabled={input.length === 0}
           >
-            Ask AI
+            <ArrowRight size={20} />
           </Button>
         </div>
         <EmptyScreen

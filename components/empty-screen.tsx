@@ -27,22 +27,20 @@ export function EmptyScreen({
   className?: string
 }) {
   return (
-    <div
-      className={`mx-auto w-full transition-all mt-2 rounded-lg shadow-2xl ${className}`}
-    >
-      <div className="bg-white p-2">
-        <div className="mt-4 flex flex-col items-start rounded-lg space-y-2 mb-4">
+    <div className={`mx-auto w-full transition-all ${className}`}>
+      <div className="bg-background p-2">
+        <div className="mt-4 flex flex-col items-start space-y-2 mb-4">
           {exampleMessages.map((message, index) => (
             <Button
               key={index}
               variant="link"
-              className="h-auto p-0 text-base text-orange-500"
+              className="h-auto p-0 text-base"
               name={message.message}
               onClick={async () => {
                 submitMessage(message.message)
               }}
             >
-              <ArrowRight size={16} className="mr-2 text-background" />
+              <ArrowRight size={16} className="mr-2 text-muted-foreground" />
               {message.heading}
             </Button>
           ))}
