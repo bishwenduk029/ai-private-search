@@ -48,7 +48,7 @@ def search_web_ref(query: str, debug=False):
         print(safe_string)
 
         response = requests.get(
-            'http://localhost:8080/?q=' + safe_string + '&format=json')
+            'http://searxng:8080/?q=' + safe_string + '&format=json')
         response.raise_for_status()
         search_results = response.json()
 

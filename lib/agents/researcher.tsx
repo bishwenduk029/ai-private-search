@@ -148,7 +148,7 @@ async function searxngSearch(
   maxResults: number = 10,
   searchDepth: 'basic' | 'advanced' = 'basic'
 ): Promise<any> {
-  const response = await fetch('http://localhost:8000/v1/search', {
+  const response = await fetch('http://justask-backend:8000/v1/search', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

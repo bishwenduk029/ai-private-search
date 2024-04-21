@@ -2,7 +2,7 @@ general:
   # Debug mode, only for development. Is overwritten by ${SEARXNG_DEBUG}
   debug: false
   # displayed name
-  instance_name: "just_ask_search_engine"
+  instance_name: 'just_ask_search_engine'
   # For example: https://example.com/privacy
   privacypolicy_url: false
   # use true to use your own donation page written in searx/info/en/donate.md
@@ -32,11 +32,11 @@ search:
   # Existing autocomplete backends: "dbpedia", "duckduckgo", "google", "yandex", "mwmbl",
   # "seznam", "startpage", "stract", "swisscows", "qwant", "wikipedia" - leave blank to turn it off
   # by default.
-  autocomplete: ""
+  autocomplete: ''
   # minimun characters to type before autocompleter starts
   # Default search language - leave blank to detect from browser information or
   # use codes from 'languages.py'
-  default_lang: "auto"
+  default_lang: 'auto'
   ban_time_on_fail: 1
   max_ban_time_on_fail: 120
   suspended_times:
@@ -53,7 +53,7 @@ search:
 server:
   # Is overwritten by ${SEARXNG_PORT} and ${SEARXNG_BIND_ADDRESS}
   port: 8080
-  bind_address: "0.0.0.0"
+  bind_address: '0.0.0.0'
   # public URL of the instance, to ensure correct inbound links. Is overwritten
   # by ${SEARXNG_URL}.
   base_url: http://localhost:/ # "http://example.com/location"
@@ -63,14 +63,14 @@ server:
   # If your instance owns a /etc/searxng/settings.yml file, then set the following
   # values there.
 
-  secret_key: "f884dadd9e6b23ea6c073a031b18daa0288ff1d82a1c5514089f0ecb32ac7a54" # Is overwritten by ${SEARXNG_SECRET}
+  secret_key: 'f884dadd9e6b23ea6c073a031b18daa0288ff1d82a1c5514089f0ecb32ac7a54' # Is overwritten by ${SEARXNG_SECRET}
   # Proxying image results through searx
   image_proxy: false
   # 1.0 and 1.1 are supported
-  http_protocol_version: "1.0"
+  http_protocol_version: '1.0'
   # POST queries are more secure as they don't show up in history but may cause
   # problems when using Firefox containers
-  method: "POST"
+  method: 'POST'
   default_http_headers:
     X-Content-Type-Options: nosniff
     X-Download-Options: noopen
@@ -84,10 +84,10 @@ redis:
 
 ui:
   # Custom static path - leave it blank if you didn't change
-  static_path: ""
+  static_path: ''
   static_use_hash: false
   # Custom templates path - leave it blank if you didn't change
-  templates_path: ""
+  templates_path: ''
   # query_in_title: When true, the result page's titles contains the query
   # it decreases the privacy, since the browser can records the page titles.
   query_in_title: false
@@ -101,7 +101,7 @@ ui:
   # cache_url: "https://webcache.googleusercontent.com/search?q=cache:"
   # Default interface locale - leave blank to detect from browser information or
   # use codes from the 'locales' config section
-  default_locale: ""
+  default_locale: ''
   # Open result links in a new tab by default
   # results_on_new_tab: false
   theme_args:
@@ -144,7 +144,7 @@ outgoing:
   # max_request_timeout: 10.0
   # suffix of searx_useragent, could contain information like an email address
   # to the administrator
-  useragent_suffix: ""
+  useragent_suffix: ''
   # The maximum number of concurrent connections that may be established.
   pool_connections: 100
   # Allow the connection pool to maintain keep-alive connections below this
@@ -243,17 +243,17 @@ checker:
         lang: en
       result_container:
         - not_empty
-        - ["one_title_contains", "citizen kane"]
+        - ['one_title_contains', 'citizen kane']
       test:
         - unique_results
 
     android: &test_android
       matrix:
-        query: ["android"]
-        lang: ["en", "de", "fr", "zh-CN"]
+        query: ['android']
+        lang: ['en', 'de', 'fr', 'zh-CN']
       result_container:
         - not_empty
-        - ["one_title_contains", "google"]
+        - ['one_title_contains', 'google']
       test:
         - unique_results
 
@@ -262,7 +262,7 @@ checker:
     infobox: &tests_infobox
       infobox:
         matrix:
-          query: ["linux", "new york", "bbc"]
+          query: ['linux', 'new york', 'bbc']
         result_container:
           - has_infobox
 
@@ -362,8 +362,8 @@ engines:
     engine: wikipedia
     shortcut: wp
     # add "list" to the array to get results in the results list
-    display_type: ["infobox"]
-    base_url: "https://{language}.wikipedia.org/"
+    display_type: ['infobox']
+    base_url: 'https://{language}.wikipedia.org/'
     categories: [general]
 
   - name: bilibili
@@ -509,7 +509,7 @@ engines:
     categories: general
     disabled: true
     paging: true
-    lang_all: ""
+    lang_all: ''
     search_url: https://curlie.org/search?q={query}&lang={lang}&start={pageno}&stime=92452189
     page_size: 20
     results_xpath: //div[@id="site-list-content"]/div[@class="site-item"]
@@ -551,7 +551,7 @@ engines:
           lang: en
         result_container:
           - not_empty
-          - ["one_title_contains", "Berlin Hauptbahnhof"]
+          - ['one_title_contains', 'Berlin Hauptbahnhof']
         test:
           - unique_results
 
@@ -629,7 +629,7 @@ engines:
     timeout: 3.0
     weight: 2
     # add "list" to the array to get results in the results list
-    display_type: ["infobox"]
+    display_type: ['infobox']
     tests: *tests_infobox
     categories: [general]
 
@@ -1218,7 +1218,7 @@ engines:
     title_query: metadata/oaf:entity/oaf:result/title/$
     content_query: metadata/oaf:entity/oaf:result/description/$
     content_html_to_text: true
-    categories: "science"
+    categories: 'science'
     shortcut: oad
     timeout: 5.0
     about:
@@ -1538,13 +1538,13 @@ engines:
   - name: stackoverflow
     engine: stackexchange
     shortcut: st
-    api_site: "stackoverflow"
+    api_site: 'stackoverflow'
     categories: [it, q&a]
 
   - name: askubuntu
     engine: stackexchange
     shortcut: ubuntu
-    api_site: "askubuntu"
+    api_site: 'askubuntu'
     categories: [it, q&a]
 
   - name: internetarchivescholar
@@ -1555,7 +1555,7 @@ engines:
   - name: superuser
     engine: stackexchange
     shortcut: su
-    api_site: "superuser"
+    api_site: 'superuser'
     categories: [it, q&a]
 
   - name: searchcode code
@@ -1780,7 +1780,7 @@ engines:
     weight: 0.5
     shortcut: wb
     categories: [general, wikimedia]
-    base_url: "https://{language}.wikibooks.org/"
+    base_url: 'https://{language}.wikibooks.org/'
     search_type: text
     disabled: true
     about:
@@ -1791,7 +1791,7 @@ engines:
     engine: mediawiki
     shortcut: wn
     categories: [news, wikimedia]
-    base_url: "https://{language}.wikinews.org/"
+    base_url: 'https://{language}.wikinews.org/'
     search_type: text
     srsort: create_timestamp_desc
     about:
@@ -1803,7 +1803,7 @@ engines:
     weight: 0.5
     shortcut: wq
     categories: [general, wikimedia]
-    base_url: "https://{language}.wikiquote.org/"
+    base_url: 'https://{language}.wikiquote.org/'
     search_type: text
     disabled: true
     additional_tests:
@@ -1817,7 +1817,7 @@ engines:
     weight: 0.5
     shortcut: ws
     categories: [general, wikimedia]
-    base_url: "https://{language}.wikisource.org/"
+    base_url: 'https://{language}.wikisource.org/'
     search_type: text
     disabled: true
     about:
@@ -1828,7 +1828,7 @@ engines:
     engine: mediawiki
     shortcut: wsp
     categories: [general, science, wikimedia]
-    base_url: "https://species.wikimedia.org/"
+    base_url: 'https://species.wikimedia.org/'
     search_type: text
     disabled: true
     about:
@@ -1837,11 +1837,11 @@ engines:
     tests:
       wikispecies:
         matrix:
-          query: "Campbell, L.I. et al. 2011: MicroRNAs"
+          query: 'Campbell, L.I. et al. 2011: MicroRNAs'
           lang: en
         result_container:
           - not_empty
-          - ["one_title_contains", "Tardigrada"]
+          - ['one_title_contains', 'Tardigrada']
         test:
           - unique_results
 
@@ -1849,7 +1849,7 @@ engines:
     engine: mediawiki
     shortcut: wt
     categories: [dictionaries, wikimedia]
-    base_url: "https://{language}.wiktionary.org/"
+    base_url: 'https://{language}.wiktionary.org/'
     search_type: text
     about:
       website: https://www.wiktionary.org/
@@ -1860,7 +1860,7 @@ engines:
     weight: 0.5
     shortcut: wv
     categories: [general, wikimedia]
-    base_url: "https://{language}.wikiversity.org/"
+    base_url: 'https://{language}.wikiversity.org/'
     search_type: text
     disabled: true
     about:
@@ -1872,7 +1872,7 @@ engines:
     weight: 0.5
     shortcut: wy
     categories: [general, wikimedia]
-    base_url: "https://{language}.wikivoyage.org/"
+    base_url: 'https://{language}.wikivoyage.org/'
     search_type: text
     disabled: true
     about:
@@ -2350,11 +2350,11 @@ engines:
 #        keys: ['line']
 
 doi_resolvers:
-  oadoi.org: "https://oadoi.org/"
-  doi.org: "https://doi.org/"
-  doai.io: "https://dissem.in/"
-  sci-hub.se: "https://sci-hub.se/"
-  sci-hub.st: "https://sci-hub.st/"
-  sci-hub.ru: "https://sci-hub.ru/"
+  oadoi.org: 'https://oadoi.org/'
+  doi.org: 'https://doi.org/'
+  doai.io: 'https://dissem.in/'
+  sci-hub.se: 'https://sci-hub.se/'
+  sci-hub.st: 'https://sci-hub.st/'
+  sci-hub.ru: 'https://sci-hub.ru/'
 
-default_doi_resolver: "oadoi.org"
+default_doi_resolver: 'oadoi.org'
