@@ -72,10 +72,11 @@ export async function researcher(
             </Section>
           )
 
-          const searchResult =
-            searchAPI === 'searxng'
-              ? await searxngSearch(query, max_results, search_depth)
-              : await exaSearch(query)
+          const searchResult = await searxngSearch(
+            query,
+            max_results,
+            search_depth
+          )
 
           uiStream.update(
             <Section title="Images">

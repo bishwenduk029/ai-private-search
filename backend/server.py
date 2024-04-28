@@ -15,6 +15,7 @@ import requests
 import trafilatura
 from concurrent.futures import ThreadPoolExecutor
 import concurrent
+import concurrent.futures
 import requests
 from urllib.parse import urlparse
 import tldextract
@@ -30,30 +31,35 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 def extract_url_content(url):
     downloaded = trafilatura.fetch_url(url)
     content = trafilatura.extract(downloaded)
-
     return {"url": url, "content": content}
 
-
 def search_web_ref(query: str, debug=False):
-
     content_list = []
-
     try:
+        safe_string_general = urllib.parse.quote_plus(":all !general " + query)
+        safe_string_images = urllib.parse.quote_plus(":all !images " + query)
+        print(safe_string_general)
+        print(safe_string_images)
+        
+        def fetch_results(safe_string):
+            return requests.get('http://searxng:8080/?q=' + safe_string + '&format=json')
 
-        safe_string = urllib.parse.quote_plus(":all !general " + query)
-        print(safe_string)
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            general_future = executor.submit(fetch_results, safe_string_general)
+            images_future = executor.submit(fetch_results, safe_string_images)
+            general_response = general_future.result()
+            images_response = images_future.result()
 
-        response = requests.get(
-            'http://searxng:8080/?q=' + safe_string + '&format=json')
-        response.raise_for_status()
-        search_results = response.json()
+        general_response.raise_for_status()
+        images_response.raise_for_status()
+
+        search_results = general_response.json()
+        images_results = images_response.json()
 
         pedding_urls = []
-
         conv_links = []
         images = []
 
@@ -63,47 +69,47 @@ def search_web_ref(query: str, debug=False):
                 snippet = item.get('content')
                 url = item.get('url')
                 pedding_urls.append(url)
-                images.append(item.get("img_src"))
-
                 if url:
                     url_parsed = urlparse(url)
                     domain = url_parsed.netloc
                     icon_url = url_parsed.scheme + '://' + url_parsed.netloc + '/favicon.ico'
                     site_name = tldextract.extract(url).domain
+                    conv_links.append({
+                        'site_name': site_name,
+                        'icon_url': icon_url,
+                        'title': name,
+                        'url': url,
+                        'snippet': snippet
+                    })
 
-                conv_links.append({
-                    'site_name': site_name,
-                    'icon_url': icon_url,
-                    'title': name,
-                    'url': url,
-                    'snippet': snippet
-                })
+        if images_results.get('results'):
+            for item in images_results.get('results')[0:7]:
+                images.append(item.get("img_src"))
 
-            results = []
-            futures = []
+        results = []
+        futures = []
+        executor = ThreadPoolExecutor(max_workers=10)
+        for url in pedding_urls:
+            futures.append(executor.submit(extract_url_content, url))
+        try:
+            for future in futures:
+                res = future.result(timeout=5)
+                results.append(res)
+        except concurrent.futures.TimeoutError:
+            executor.shutdown(wait=False, cancel_futures=True)
 
-            executor = ThreadPoolExecutor(max_workers=10)
-            for url in pedding_urls:
-                futures.append(executor.submit(extract_url_content, url))
-            try:
-                for future in futures:
-                    res = future.result(timeout=5)
-                    results.append(res)
-            except concurrent.futures.TimeoutError:
-                executor.shutdown(wait=False, cancel_futures=True)
+        for content in results:
+            if content and content.get('content'):
+                item_dict = {
+                    "url": content.get('url'),
+                    "content": content.get('content'),
+                    "length": len(content.get('content'))
+                }
+                content_list.append(item_dict)
 
-            for content in results:
-                if content and content.get('content'):
-
-                    item_dict = {
-                        "url": content.get('url'),
-                        "content": content.get('content'),
-                        "length": len(content.get('content'))
-                    }
-                    content_list.append(item_dict)
-                if debug:
-                    print("URL: {}".format(url))
-                    print("=================")
+        if debug:
+            print("URL: {}".format(url))
+            print("=================")
 
         return [content_list, images]
     except Exception as ex:
